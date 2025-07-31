@@ -10,6 +10,7 @@ import datetime
 import instock.lib.trade_time as trd
 import instock.core.singleton_stock_web_module_data as sswmd
 import instock.web.base as webBase
+from instock.web.baseResponse import BaseResponse
 
 __author__ = 'myh '
 __date__ = '2023/3/10 '
@@ -66,6 +67,42 @@ class GetStockDataHandler(webBase.BaseHandler, ABC):
             order_columns = f",{web_module_data.order_columns}"
 
         sql = f" SELECT *{order_columns} FROM `{web_module_data.table_name}`{where}{order_by}"
-        data = self.db.query(sql,date)
+        data = self.db.query(sql, date)
 
         self.write(json.dumps(data, cls=MyEncoder))
+
+
+class GetStockTableColumnsHandler(webBase.BaseHandler, ABC):
+    def get(self):
+        name = self.get_argument("name", default=None, strip=False)
+        web_module_data = sswmd.stock_web_module_data().get_data(name)
+        self.set_header('Content-Type', 'application/json;charset=UTF-8')
+        self.write(json.dumps(web_module_data, cls=MyEncoder))
+
+
+class ListHandler(webBase.BaseHandler, ABC):
+    def get(self):
+        # 获取查询参数
+        page = int(self.get_argument("page", 1))  # 默认第 1 页
+        page_size = int(self.get_argument("pageSize", 20))  # 默认每页 20 条
+
+        # 模拟数据库查询
+        total_items = 100  # 假设有 100 条数据
+        items = [
+            {"id": i, "name": f"Item {i}", "description": f"Description of Item {i}"}
+            for i in range((page - 1) * page_size, page * page_size)
+        ]
+
+        # 构造响应数据
+        response_data = {
+            "items": items,
+            "total": total_items
+        }
+
+        # 返回 JSON 响应
+        response = BaseResponse(
+            code=0,
+            data=response_data,
+            message="ok"
+        )
+        self.write(response.to_json())

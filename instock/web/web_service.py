@@ -38,8 +38,10 @@ class Application(tornado.web.Application):
             # 设置路由
             (r"/", HomeHandler),
             (r"/instock/", HomeHandler),
+            (r"/instock/list", dataTableHandler.ListHandler),
             # 使用datatable 展示报表数据模块。
             (r"/instock/api_data", dataTableHandler.GetStockDataHandler),
+            (r"/instock/table/columns", dataTableHandler.GetStockTableColumnsHandler),
             (r"/instock/data", dataTableHandler.GetStockHtmlHandler),
             # 获得股票指标数据。
             (r"/instock/data/indicators", dataIndicatorsHandler.GetDataIndicatorsHandler),
