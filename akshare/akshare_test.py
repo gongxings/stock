@@ -36,11 +36,15 @@ if __name__ == '__main__':
     # stock_hot_follow_xq_df = ak.stock_hot_keyword_em(symbol="SZ603228")
     # print(stock_hot_follow_xq_df)
 
-    stock_zh_a_hist_df = ak.stock_zh_a_hist(
-        symbol="600734",
-        period="daily",
-        start_date="20250101",
-        end_date="20250713",
-        adjust="hfq"
-    )
-    print(stock_zh_a_hist_df)
+    # stock_zh_a_hist_df = ak.stock_zh_a_hist(
+    #     symbol="600734",
+    #     period="daily",
+    #     start_date="20250101",
+    #     end_date="20250713",
+    #     adjust="hfq"
+    # )
+    # print(stock_zh_a_hist_df)
+
+    stock_zh_a_spot_em_df = ak.stock_zh_a_spot_em()
+    stock_zh_a_spot_em_df.to_excel('output.xlsx', index=False, sheet_name='员工信息')
+    print(stock_zh_a_spot_em_df)

@@ -175,5 +175,5 @@ def test():
 if __name__ == '__main__':
     # 运行测试
     # 测试单个股票打分
-    result = calculate_single_stock_with_score("600004")
+    result = calculate_single_stock_with_score("000066")
     print(result)
